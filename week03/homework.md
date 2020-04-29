@@ -58,7 +58,6 @@
   ```
 # 第二堂课作业：
 # 哪些对象是无法识别的：
-```
 - Bound Function Exotic Objects
 - Array Exotic Objects
 - String Exotic Objects
@@ -67,4 +66,3 @@
 - Module Namespace Exotic Objects
 - Immutable Prototype Exotic Objects
 - Proxy Object Internal Methods and Internal Slots
-```
