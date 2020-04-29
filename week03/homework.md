@@ -1,5 +1,6 @@
 # 第一堂课作业：
  ## convertStringToNumber：
+ ```
   // string 输入的字符串
   // x 进制
   function stringToNumber (string, x = 10) {
@@ -36,7 +37,9 @@
     }
     }
   }
+  ```
  ## convertNumberToString：
+ ```
  // number 输入的数字
  // x 进制
   function numberToString (number, x) {
@@ -52,8 +55,10 @@
     }
     return smallNumber ? `${string}.${smallNumber}` : string;
   }
+  ```
 # 第二堂课作业：
 # 哪些对象是无法识别的：
+```
 - Bound Function Exotic Objects
 - Array Exotic Objects
 - String Exotic Objects
@@ -62,3 +67,4 @@
 - Module Namespace Exotic Objects
 - Immutable Prototype Exotic Objects
 - Proxy Object Internal Methods and Internal Slots
+```
