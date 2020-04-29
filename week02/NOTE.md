@@ -8,41 +8,41 @@
 ### 产生式 BNF
   #### 加法定义
   ```
-  <Number> = "0" | "1" | "2" | ..... | "9"
-  <DecimalNumber> = "0" | (("1" | "2" | ..... | "9") <Number>* ) // 代表十进制
+  <Number> := "0" | "1" | "2" | ..... | "9"
+  <DecimalNumber> := "0" | (("1" | "2" | ..... | "9") <Number>* ) // 代表十进制
   // 连加/减
-  <AdditiveExpression> = <MultiplicativeExpression> |
+  <AdditiveExpression> := <MultiplicativeExpression> |
     <AdditiveExpression> "+" <MultiplicativeExpression> |
     <AdditiveExpression> "-" <MultiplicativeExpression>
   ```
   #### 乘法定义
   ```
-  <Number> = "0" | "1" | "2" | ..... | "9"
-  <DecimalNumber> = "0" | (("1" | "2" | ..... | "9") <Number>* )
-  <MultiplicativeExpression> = <DecimalNumber> |
+  <Number> := "0" | "1" | "2" | ..... | "9"
+  <DecimalNumber> := "0" | (("1" | "2" | ..... | "9") <Number>* )
+  <MultiplicativeExpression> := <DecimalNumber> |
   <MultiplicativeExpression> "*" <DecimalNumber> |
   <MultiplicativeExpression> "/" <DecimalNumber>
   ```
   #### 其他
   ```
-  <Number> = "0" | "1" | "2" | ..... | "9"
-  <DecimalNumber> = "0" | (("1" | "2" | ..... | "9") <Number>* )
-  <AdditiveExpression> = <MultiplicativeExpression> |
+  <Number> := "0" | "1" | "2" | ..... | "9"
+  <DecimalNumber> := "0" | (("1" | "2" | ..... | "9") <Number>* )
+  <AdditiveExpression> := <MultiplicativeExpression> |
     <AdditiveExpression> "+" <MultiplicativeExpression> |
     <AdditiveExpression> "-" <MultiplicativeExpression>
 
-  <MultiplicativeExpression> = <DecimalNumber> |
+  <MultiplicativeExpression> := <DecimalNumber> |
   <MultiplicativeExpression> "*" <DecimalNumber> |
   <MultiplicativeExpression> "/" <DecimalNumber>
 
-  <LogicalExpression> = <AdditiveExpression> |
+  <LogicalExpression> := <AdditiveExpression> |
     <LogicalExpression> "||" <AdditiveExpression> |
     <LogicalExpression> "&&" <AdditiveExpression>
 
-  <PrimaryExpression> = <DecimalNumber> |
+  <PrimaryExpression> := <DecimalNumber> |
     "(" <LogicalExpression> ")"
   // 演变
-  <MultiplicativeExpression> = <PrimaryExpression> |
+  <MultiplicativeExpression> := <PrimaryExpression> |
     <MultiplicativeExpression> "*" <PrimaryExpression> |
     <MultiplicativeExpression> "/" <PrimaryExpression>
   ```
@@ -67,7 +67,7 @@
 #### Unicode
 > Unicode 只是一个符号集，它只规定了符号的二进制代码，却没有规定这个二进制代码应该如何存储。
 #### UTF-8
-- UTF-8 就是在互联网上使用最广的一种 Unicode 的实现方式。其他实现方式还包括 UTF-16（字符用两个字节或四个字节表示）和 UTF-32（字符用四个字节表示）;
+- UTF-8 就是在互联网上使用最广的一种Unicode的实现方式。其他实现方式还包括 UTF-16（字符用两个字节或四个字节表示）和 UTF-32（字符用四个字节表示）;
 - UTF-8 最大的一个特点，就是它是一种变长的编码方式。它可以使用1~4个字节表示一个符号，根据不同的符号而变化字节长度。
 - 对于单字节的符号，字节的第一位设为0，后面7位为这个符号的 Unicode 码。因此对于英语字母，UTF-8 编码和 ASCII 码是相同的。
 - 对于n字节的符号（n > 1），第一个字节的前n位都设为1，第n + 1位设为0，后面字节的前两位一律设为10。剩下的没有提及的二进制位，全部为这个符号的 Unicode 码。
@@ -81,4 +81,65 @@ Unicode符号范围     |        UTF-8编码方式
 0001 0000-0010 FFFF | 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
 ```
 #### Unicode 与 UTF-8 之间的转换
-#### Little endian 和 Big endian
+## lexical grammer
+### InputElement
+> js中尽量使用 U+0000 to U+FFFF.
+  - WhiteSpace //空格
+    - TAB  制表符 \t 空白符
+    - VT 纵向制表符 \v 空白符
+    - FF FORM FEED (FF)
+    - SP 普通空格 32
+    - NBSP no-break space
+    - ZWNBSP zero width no-break space
+  - LineTerminator //换行符
+    - LF U+000A line feed \n 换行
+    - CR U+000D CARRIAGE RETURN \r 回车
+    - LS U+2028 line separator 分行符 超出unicode编码之外
+    - PS U+2029 paragraph separator 分段符 超出unicode编码之外
+  - Comment //注释
+    - 单行注释
+    - 多行注释
+  - Token
+    ```
+    var a = 1;
+    var toBePrime = function () {
+      return false;
+    }
+    {
+      get aaa() {}
+    }
+    ```
+    keywords和Punctuator是帮助代码形成结构的；
+    Identifier和Literal是关键信息
+    - Punctuator 符号 ; () {} =
+    - IdentifierName
+      - keywords 关键字 var return
+      - Identifier 标识符 上边的 a；toBePrime;
+        - 属性名
+        - 变量名
+      - future reserved keywords 例如：enum
+    - Literal 字面量 1 false
+      - Number
+        - 二进制 0b
+        - 八进制 0o
+        - 十进制
+        - 十六进制 0x
+      - String
+        - character 字符 a
+        - code point 码点 97
+        - encoding 01100001
+        -----------------------
+        - ascii
+        - unicode
+        - gb2312
+        - gbk
+        - iso-8859
+        -----------------------
+        - string-encoding
+          - utf-8
+          - utf-16
+      - Boolean
+      - Null
+      - Undefined
+      - Object
+      - Symbol
