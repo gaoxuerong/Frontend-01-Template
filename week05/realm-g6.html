@@ -16,12 +16,12 @@
   </head>
   <body>
     <div id="container"></div>
-    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.4.9/dist/g6.min.js"></script>
+    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.4.7/dist/g6.min.js"></script>
     <script>
       function ownPropertyNamesFor(target) {
         if (target === window) {
           return [
-            // Function Properties
+            // Function Properties of the Global Object
             "eval",
             "isFinite",
             "isNaN",
@@ -31,7 +31,7 @@
             "decodeURIComponent",
             "encodeURI",
             "encodeURIComponent",
-            // Constructor Properties
+            // Constructor Properties of the Global Object
             "Array",
             "ArrayBuffer",
             "Boolean",
@@ -41,35 +41,36 @@
             "EvalError",
             "Float32Array",
             "Float64Array",
-            "Function",
             "Int8Array",
             "Int16Array",
             "Int32Array",
-            "Map",
             "Number",
             "Object",
-            "Promise",
+            "Map",
+            "WeakMap",
+            "Set",
+            "WeakSet",
             "Proxy",
+            "Promise",
             "RangeError",
             "ReferenceError",
             "RegExp",
-            "Set",
             "SharedArrayBuffer",
-            "String",
+            "Function",
             "Symbol",
+            "String",
             "SyntaxError",
             "TypeError",
+            "URIError",
             "Uint8Array",
+            "Uint8ClampedArray",
             "Uint16Array",
             "Uint32Array",
-            "URIError",
-            "WeakMap",
-            "WeakSet",
-            // Other Properties
+            // Other Properties of the Global Object
+            "Reflect",
             "Atomics",
             "JSON",
             "Math",
-            "Reflect",
           ];
         }
         return Object.getOwnPropertyNames(target);
@@ -121,8 +122,8 @@
       const width = document.getElementById("container").scrollWidth;
       const height = document.getElementById("container").scrollHeight;
       const data = {
-        id: "global",
-        name: "global",
+        id: "global-object",
+        name: "global-object",
         children: getObjectProperties(window),
       };
 
@@ -182,7 +183,7 @@
       let centerX = 0;
       graph.node(function (node) {
         let position = "top";
-        if (node.id === "global") {
+        if (node.id === "global-object") {
           centerX = node.x;
         } else {
           if (node.x > centerX) {

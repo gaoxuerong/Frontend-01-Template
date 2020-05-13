@@ -15,73 +15,112 @@
   - 固有对象 由标准决定，在运行时阶段创建的
   获取全部 JavaScript 固有对象:
   ```
-  var set = new Set();
-  var objects = [
-    eval,
-    isFinite,
-    isNaN,
-    parseFloat,
-    parseInt,
-    decodeURI,
-    decodeURIComponent,
-    encodeURI,
-    encodeURIComponent,
-    Array,
-    Date,
-    RegExp,
-    Promise,
-    Proxy,
-    Map,
-    WeakMap,
-    Set,
-    WeakSet,
-    Function,
-    Boolean,
-    String,
-    Number,
-    Symbol,
-    Object,
-    Error,
-    EvalError,
-    RangeError,
-    ReferenceError,
-    SyntaxError,
-    TypeError,
-    URIError,
-    ArrayBuffer,
-    SharedArrayBuffer,
-    DataView,
-    Float32Array,
-    Float64Array,
-    Int8Array,
-    Int16Array,
-    Int32Array,
-    Uint8Array,
-    Uint16Array,
-    Uint32Array,
-    Uint8ClampedArray,
-    Atomics,
-    JSON,
-    Math,
-    Reflect
-  ];
-  objects.forEach(o => set.add(o));
-  for(var i = 0; i < objects.length; i++) {
-    var o = objects[i]
-    for(var p of Object.getOwnPropertyNames(o)) {
-        var d = Object.getOwnPropertyDescriptor(o, p)
-        if( (d.value !== null && typeof d.value === "object") || (typeof d.value === "function"))
-            if(!set.has(d.value))
-                set.add(d.value), objects.push(d.value);
-        if( d.get )
-            if(!set.has(d.get))
-                set.add(d.get), objects.push(d.get);
-        if( d.set )
-            if(!set.has(d.set))
-                set.add(d.set), objects.push(d.set);
+    // 参考 https://www.ecma-international.org/ecma-262/10.0/index.html#sec-value-properties-of-the-global-object
+    // about:blank，把代码粘贴进去;因为开一个html页面会重复；
+    var globalProperties = [
+      // Value Properties of the Global Object
+      // "Infinity",
+      // "undefined",
+      "NaN",
+      // Function Properties of the Global Object
+      "eval",
+      "isFinite",
+      "isNaN",
+      "parseFloat",
+      "parseInt",
+      "decodeURI",
+      "decodeURIComponent",
+      "encodeURI",
+      "encodeURIComponent",
+      // Constructor Properties of the Global Object
+      "Array",
+      "ArrayBuffer",
+      "Boolean",
+      "DataView",
+      "Date",
+      "Error",
+      "EvalError",
+      "Float32Array",
+      "Float64Array",
+      "Int8Array",
+      "Int16Array",
+      "Int32Array",
+      "Number",
+      "Object",
+      "Map",
+      "WeakMap",
+      "Set",
+      "WeakSet",
+      "Proxy",
+      "Promise",
+      "RangeError",
+      "ReferenceError",
+      "RegExp",
+      "SharedArrayBuffer",
+      "Function",
+      "Symbol",
+      "String",
+      "SyntaxError",
+      "TypeError",
+      "URIError",
+      "Uint8Array",
+      "Uint8ClampedArray",
+      "Uint16Array",
+      "Uint32Array",
+      // Other Properties of the Global Object
+      "Reflect",
+      "Atomics",
+      "JSON",
+      "Math",
+    ];
+    var set = new Set();
+    var queue = [];
+    for (var p of globalProperties) {
+      queue.push({
+        path: [p],
+        object: this[p],
+      });
     }
-  }
+    let current;
+    while (queue.length) {
+      current = queue.shift();
+      console.log(current.path.join("."));
+      if (set.has(current.object)) {
+        continue;
+      }
+      set.add(current.object);
+      for (let p of Object.getOwnPropertyNames(current.object)) {
+        var property = Object.getOwnPropertyDescriptor(current.object, p);
+        if (
+          property.hasOwnProperty("value") &&
+          ((property.value != null && typeof property.value === "object") ||
+            typeof property.value === "object") &&
+          property.value instanceof Object
+        ) {
+          queue.push({
+            path: current.path.concat([p]),
+            object: property.value,
+          });
+        }
+        if (property.hasOwnProperty("get") && typeof property.get === "function") {
+          queue.push({
+            path: current.path.concat([p]),
+            object: property.get,
+          });
+        }
+        if (property.hasOwnProperty("set") && typeof property.set === "function") {
+          queue.push({
+            path: current.path.concat([p]),
+            object: property.set,
+          });
+        }
+      }
+    }
   ```
+result：
+![realm.jpg]('https://github.com/gaoxuerong/Frontend-01-Template/blob/master/week05/realm.jpg')
+用g6表示：
+![realm-g6.jpg]('https://github.com/gaoxuerong/Frontend-01-Template/blob/master/week05/realm-g6.jpg')
   - 原生对象
       |基本类型      |基础功能和数据结构       |错误类型        |二进制操作         |带类型的数组           |
       |-------------|----------------------|--------------|-----------------|-------------------- |
@@ -101,6 +140,10 @@
   - 函数对象: 具有[[call]]私有字段的对象
   - 构造器对象: 具有私有字段[[construct]]的对象
 # realm：
+> https://www.ecma-international.org/ecma-262/10.0/index.html#sec-code-realms
+```
+Before it is evaluated, all ECMAScript code must be associated with a realm. Conceptually, a realm consists of a set of intrinsic objects, an ECMAScript global environment, all of the ECMAScript code that is loaded within the scope of that global environment, and other associated state and resources.
+```
 ## Q：realm是什么？
 > A: realm 可以看成是装了一堆内置对象的盒子
 ## Q：reaml有什么作用？

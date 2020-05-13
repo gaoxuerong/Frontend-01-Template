@@ -5,7 +5,7 @@
 - http协议是基于tcp协议的，tcp协议是一条双向的通信通道，HTTP 在 TCP 的基础上，规定了`request-response`的模式，这个模式决定了通讯必定是由浏览器端首先发起的。toy-browser这个玩具浏览器也是基于这个原理；大部分浏览器的实现者只需要基于一个tcp库，甚至一个现成的 HTTP 库就可以搞定浏览器的网络通讯部分；HTTP 是纯粹的文本协议，它是规定了使用 TCP 协议来传输文本格式的一个应用层协议。
 - 方法 options, patch, put, post, get, delete, etc.
 - 状态码 https://github.com/gaoxuerong/zhihu-RESTful-api/blob/master/study-note/http/index.md
-- headers
+- headers 略
 - HTTP Request Body
   - application/json 最常用，请求接口
   - application/x-www-form-urlencoded form表单默认
