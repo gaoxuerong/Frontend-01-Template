@@ -16,7 +16,6 @@
   获取全部 JavaScript 固有对象:
   ```
     // 参考 https://www.ecma-international.org/ecma-262/10.0/index.html#sec-value-properties-of-the-global-object
-    // about:blank，把代码粘贴进去;因为开一个html页面会重复；
     var globalProperties = [
       // Value Properties of the Global Object
       // "Infinity",
@@ -118,9 +117,9 @@
     }
   ```
 result：
-![realm.jpg]('https://github.com/gaoxuerong/Frontend-01-Template/blob/master/week05/realm.jpg')
+![realm.jpg](./realm.jpg)
 用g6表示：
-![realm-g6.jpg]('https://github.com/gaoxuerong/Frontend-01-Template/blob/master/week05/realm-g6.jpg')
+![realm-g6.jpg](./realm-g6.jpg)
   - 原生对象
       |基本类型      |基础功能和数据结构       |错误类型        |二进制操作         |带类型的数组           |
       |-------------|----------------------|--------------|-----------------|-------------------- |
