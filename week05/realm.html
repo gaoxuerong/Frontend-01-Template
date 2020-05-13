@@ -85,14 +85,12 @@
             })
         }
         if (property.hasOwnProperty("get") && (typeof property.get === 'function')) {
-          // debugger
           queue.push({
             path: current.path.concat([p]),
             object: property.get
           })
         }
         if (property.hasOwnProperty("set") && (typeof property.set === 'function')) {
-          // debugger
           queue.push({
             path: current.path.concat([p]),
             object: property.set
