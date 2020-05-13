@@ -24,7 +24,7 @@ class Request {
     }
   }
   toString() {
-    // ``不能有缩进
+    // ``不能有缩进，不然会有bug
     return `${this.method} ${this.path} HTTP/1.1\r
 ${Object.keys(this.headers).map(key => `${key}:${this.headers[key]}`).join('\r\n')}
 \r
