@@ -1,5 +1,4 @@
 // 参考 https://www.ecma-international.org/ecma-262/10.0/index.html#sec-value-properties-of-the-global-object
-// 开一个新页面，把代码粘贴进去，开一个html页面会重复；
 var globalProperties = [
   // Value Properties of the Global Object
   // "Infinity",

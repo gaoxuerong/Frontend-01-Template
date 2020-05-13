@@ -7,7 +7,7 @@
     <style>
       html,
       body,
-      #container {
+      #app {
         height: 100%;
         padding: 0;
         margin: 0;
@@ -15,7 +15,7 @@
     </style>
   </head>
   <body>
-    <div id="container"></div>
+    <div id="app"></div>
     <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.4.7/dist/g6.min.js"></script>
     <script>
       function ownPropertyNamesFor(target) {
@@ -119,8 +119,9 @@
       }
     </script>
     <script>
-      const width = document.getElementById("container").scrollWidth;
-      const height = document.getElementById("container").scrollHeight;
+      // 参考 https://g6.antv.vision/zh/docs/manual/getting-started
+      const width = document.getElementById("app").scrollWidth;
+      const height = document.getElementById("app").scrollHeight;
       const data = {
         id: "global-object",
         name: "global-object",
@@ -128,17 +129,15 @@
       };
 
       const graph = new G6.TreeGraph({
-        container: "container",
-        width,
-        height,
+        container: "app",
+        width: width,
+        height: height,
         modes: {
           default: [
             {
               type: "collapse-expand",
               onChange: function onChange(item, collapsed) {
-                const data = item.get("model").data;
-                data.collapsed = collapsed;
-                return true;
+                console.log(item)
               },
             },
             "drag-canvas",
@@ -146,13 +145,13 @@
           ],
         },
         defaultNode: {
-          size: 26,
+          size: 30,
           anchorPoints: [
             [0, 0.5],
             [1, 0.5],
           ],
           style: {
-            fill: "#C6E5FF",
+            fill: "#3a9",
             stroke: "#5B8FF9",
           },
         },
@@ -166,16 +165,16 @@
           type: "mindmap",
           direction: "H",
           getHeight: () => {
-            return 16;
+            return 18;
           },
           getWidth: () => {
-            return 16;
+            return 10;
           },
           getVGap: () => {
-            return 8;
+            return 10;
           },
           getHGap: () => {
-            return 100;
+            return 200;
           },
         },
       });
