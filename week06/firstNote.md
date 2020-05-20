@@ -16,4 +16,5 @@ while(input){
 详见： https://www.bilibili.com/video/BV1Px411z7Yo?from=search&seid=6403308575501789708
 - 是很著名的字符串匹配算法，效率很高，但是很复杂；
 # 解析html
-- 拆解token，一一匹配
+![解析html](1.png)
+- 字符串(状态机) -> token(栈) -> DOM树

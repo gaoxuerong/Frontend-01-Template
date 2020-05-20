@@ -1,3 +1,6 @@
+# 参考：
+  - https://developer.mozilla.org/zh-CN/docs/Web/CSS/Specificity
+  - https://www.w3.org/TR/CSS2/
 在解析html的基础上加了
 ```
 // css 相关
@@ -17,7 +20,12 @@ function match(element, selector) {
     }
   } else if(selector.charAt(0) === '.') {
     let attr = element.attributes.filter(attr => attr.name === 'class')[0]
-    if (attr && attr.value === selector.replace('.', '')) {
+    // if (attr && attr.value === selector.replace('.', '')) {
+    //   return true
+    // }
+    // 处理带空格的
+    let flag = attr && attr.value.split(/\s+/).some(attrClassName => attrClassName === selector.replace('.', ''))
+    if (flag) {
       return true
     }
   } else {
@@ -112,7 +120,12 @@ function match(element, selector) {
     }
   } else if(selector.charAt(0) === '.') {
     let attr = element.attributes.filter(attr => attr.name === 'class')[0]
-    if (attr && attr.value === selector.replace('.', '')) {
+    // if (attr && attr.value === selector.replace('.', '')) {
+    //   return true
+    // }
+    // 处理带空格的
+    let flag = attr && attr.value.split(/\s+/).some(attrClassName => attrClassName === selector.replace('.', ''))
+    if (flag) {
       return true
     }
   } else {
