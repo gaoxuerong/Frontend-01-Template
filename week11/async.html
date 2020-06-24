@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .red,.green,.yellow {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+    .red {
+      background-color: red;
+    }
+    .green {
+      background-color: green;
+    }
+    .yellow {
+      background-color: yellow;
+    }
+    .grey {
+      background-color: gray;
+    }
+  </style>
+</head>
+<body>
+  <div class="red grey"></div>
+  <div class="green grey"></div>
+  <div class="yellow grey"></div>
+</body>
+<script>
+  function green() {
+    document.getElementsByClassName('green')[0].classList.remove('grey')
+  }
+  function green2grey() {
+    document.getElementsByClassName('green')[0].classList.add('grey')
+  }
+  function red() {
+    document.getElementsByClassName('red')[0].classList.remove('grey')
+  }
+  function red2grey() {
+    document.getElementsByClassName('red')[0].classList.add('grey')
+  }
+  function yellow() {
+    document.getElementsByClassName('yellow')[0].classList.remove('grey')
+  }
+  function yellow2grey() {
+    document.getElementsByClassName('yellow')[0].classList.add('grey')
+  }
+  function sleep(time) {
+    return new Promise((resolve,reject) => {
+      setTimeout(resolve,time)
+    })
+  }
+  async function go() {
+    while(true) {
+      green()
+      await sleep(10000)
+      green2grey()
+      yellow()
+      await sleep(2000)
+      yellow2grey()
+      red()
+      await sleep(5000)
+      red2grey()
+      go()
+    }
+  }
+  go()
+</script>
+</html>
